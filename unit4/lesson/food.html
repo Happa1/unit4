@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ food[1] }}</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cirrus-ui/dist/cirrus.min.css">
+
+</head>
+<body>
+<h1>{{ food[1].title() }}</h1>
+<div>Ingredients: {{ food[2] }}</div>
+<div>Price: {{ food[3] }}</div>
+<div class="w-50p">
+    <h3>Current Reviews</h3>
+    {% if reviews | length==0 %}
+        <p>There are no reviews yet. Be the first one.</p>
+    {% endif %}
+    {% for r in reviews  %}
+        <div>
+            <div class="tag bg-yellow-200">&#x2B50; {{ r[3] }}</div>
+            <div class="tag">{{ r[2] }}</div>
+            <p>{{ r[1] }}</p>
+            <div><a href="{{ url_for('edit_review', review_id=r[0], food_id=food[0])}}">Edit</a>
+            <a href="{{ url_for('delete_review', review_id=r[0], food_id=food[0])}}"
+            onclick="return confirm('Are you sure you want to delete?')">Delete</a>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+<div class="w-50p">
+    <h3>New Review</h3>
+    <form method="post">
+        <label>
+            Enter review
+            <input type="text" name="comment" value="{{ comments }}">
+        </label>
+        <label>
+            Stars (0-5)
+            <input type="range" name="stars" min="0" max="5">
+        </label>
+        <button class="btn btn-danger" type="submit">Save</button>
+    </form>
+</div>
+<a class="btn btn-success" href=url_for('foods.html')></a>
+
+</body>
+</html>
